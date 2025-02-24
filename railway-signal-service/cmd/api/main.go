@@ -1,13 +1,11 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
 
 	"crosstech-hw/railway-signal-service/internal/config"
+	"crosstech-hw/railway-signal-service/internal/database"
 
-	"github.com/go-pg/pg/v10"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -18,22 +16,12 @@ func main() {
 		return
 	}
 
-	opts := &pg.Options{
-		Addr:     cfg.PG_ADDR,
-		User:     cfg.PG_USER,
-		Password: cfg.PG_PASSWORD,
-		Database: cfg.PG_APP_NAME,
+	db, err := database.Connect(*cfg)
+	if err != nil {
+		log.Fatal("db.Connect():", err)
+		return
 	}
-
-	db := pg.Connect(opts)
 	defer db.Close()
-
-	ctx := context.Background()
-	if err := db.Ping(ctx); err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Successfully connected to the database!")
 }
 
 func loadConfig() (*config.Config, error) {
