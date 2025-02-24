@@ -5,6 +5,7 @@ import (
 
 	"crosstech-hw/railway-signal-service/internal/config"
 	"crosstech-hw/railway-signal-service/internal/database"
+	"crosstech-hw/railway-signal-service/internal/server"
 
 	"github.com/kelseyhightower/envconfig"
 )
@@ -22,6 +23,8 @@ func main() {
 		return
 	}
 	defer db.Close()
+
+	server.New(db)
 }
 
 func loadConfig() (*config.Config, error) {
