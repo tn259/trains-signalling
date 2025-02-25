@@ -21,8 +21,6 @@ func Connect(cfg config.Config) (*DB, error) {
 		Database: cfg.PG_APP_NAME,
 	}
 
-	log.Println(opts)
-
 	db := pg.Connect(opts)
 
 	ctx := db.Context()
