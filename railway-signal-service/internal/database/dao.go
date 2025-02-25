@@ -89,6 +89,9 @@ func (d *PGDao) TrackByID(id int) (*Track, error) {
 	track := &Track{ID: id}
 	err := d.db.Model(track).WherePK().Select()
 	if err != nil {
+		if err == pg.ErrNoRows {
+			return nil, nil
+		}
 		return nil, fmt.Errorf("d.db.Model(track).WherePK().Select(): %v", err)
 	}
 	return track, nil
@@ -103,24 +106,18 @@ func (d *PGDao) CreateTrack(t *Track) error {
 }
 
 func (d *PGDao) UpdateTrack(t *Track) (bool, error) {
-	_, err := d.db.Model(t).WherePK().Update()
+	r, err := d.db.Model(t).WherePK().Update()
 	if err != nil {
-		if err == pg.ErrNoRows {
-			return false, nil
-		}
 		return false, fmt.Errorf("d.db.Model(t).WherePK().Update(): %v", err)
 	}
-	return true, nil
+	return r.RowsAffected() > 0, nil
 }
 
 func (d *PGDao) DeleteTrack(id int) (bool, error) {
 	track := &Track{ID: id}
-	_, err := d.db.Model(track).WherePK().Delete()
+	r, err := d.db.Model(track).WherePK().Delete()
 	if err != nil {
-		if err == pg.ErrNoRows {
-			return false, nil
-		}
 		return false, fmt.Errorf("d.db.Model(track).WherePK().Delete(): %v", err)
 	}
-	return true, nil
+	return r.RowsAffected() > 0, nil
 }
