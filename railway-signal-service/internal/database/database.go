@@ -29,9 +29,8 @@ func Connect(cfg config.Config) (*DB, error) {
 	for {
 		if err := db.Ping(ctx); err == nil {
 			break
-		} else {
-			//log.Printf("Failed to connect to database: %v", err)
 		}
+		// TODO add a timeout
 	}
 
 	log.Println("Connected to database successfully")

@@ -7,12 +7,12 @@ import (
 )
 
 type Tracks struct {
-	db *database.DB
+	d database.Dao
 }
 
-func NewTracks(db *database.DB) *Tracks {
+func NewTracks(d database.Dao) *Tracks {
 	return &Tracks{
-		db: db,
+		d: d,
 	}
 }
 

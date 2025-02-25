@@ -22,5 +22,7 @@ func main() {
 	}
 	defer db.Close()
 
-	server.New(db)
+	dao := database.NewPGDao(db)
+
+	server.New(dao)
 }

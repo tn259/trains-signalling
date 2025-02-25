@@ -9,11 +9,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func New(db *database.DB) {
+func New(d database.Dao) {
 	r := echo.New()
 
-	sh := handlers.NewSignals(db)
-	th := handlers.NewTracks(db)
+	sh := handlers.NewSignals(d)
+	th := handlers.NewTracks(d)
 
 	// Endpoints - signals
 	r.GET("/signals", sh.Get)
