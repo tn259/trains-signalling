@@ -6,12 +6,10 @@ import (
 	"crosstech-hw/railway-signal-service/internal/config"
 	"crosstech-hw/railway-signal-service/internal/database"
 	"crosstech-hw/railway-signal-service/internal/server"
-
-	"github.com/kelseyhightower/envconfig"
 )
 
 func main() {
-	cfg, err := loadConfig()
+	cfg, err := config.Load()
 	if err != nil {
 		log.Fatal("Failed to load config:", err)
 		return
@@ -25,13 +23,4 @@ func main() {
 	defer db.Close()
 
 	server.New(db)
-}
-
-func loadConfig() (*config.Config, error) {
-	var cfg config.Config
-	err := envconfig.Process("", &cfg)
-	if err != nil {
-		return nil, err
-	}
-	return &cfg, nil
 }
