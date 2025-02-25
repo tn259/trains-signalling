@@ -12,6 +12,8 @@ To stop
 
 # Data Model
 
+After making the json pretty with `jq . data.json > data_pretty.json`, the following entity relations were devised:
+
 ![Signalling ERD](signalling-erd.webp)
 
 # APIs
