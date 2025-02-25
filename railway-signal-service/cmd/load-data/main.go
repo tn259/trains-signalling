@@ -105,6 +105,8 @@ func insertData(db *database.DB, t []*Track) {
 			// Upsert ELR
 			var elrID int
 			// Use QueryOne to get the id of the elr
+			// Need to user UPDATE SET instead of DO NOTHING in order to get the id returned
+			// This avoids doing a SELECT below to get the ELR ID
 			_, err = tx.QueryOne(pg.Scan(&elrID), "INSERT INTO elrs (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name RETURNING id", signal.ELR)
 			if err != nil {
 				panic(err)

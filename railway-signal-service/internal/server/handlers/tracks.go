@@ -43,11 +43,11 @@ func (t *Tracks) GetOne(c echo.Context) error {
 }
 
 func (t *Tracks) Create(c echo.Context) error {
-	var track database.Track
-	if err := c.Bind(&track); err != nil {
+	var track *database.Track
+	if err := c.Bind(&track); err != nil || track == nil {
 		return c.JSON(http.StatusBadRequest, newErrorResponse(fmt.Errorf("failed to bind track: %v", err)))
 	}
-	if err := t.d.CreateTrack(&track); err != nil {
+	if err := t.d.CreateTrack(track); err != nil {
 		return c.JSON(http.StatusInternalServerError, newErrorResponse(fmt.Errorf("failed to create track: %v", err)))
 	}
 	return c.JSON(http.StatusCreated, track)
@@ -58,12 +58,12 @@ func (t *Tracks) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, newErrorResponse(fmt.Errorf("failed to parse id: %v", err)))
 	}
-	var track database.Track
-	if err := c.Bind(&track); err != nil {
+	var track *database.Track
+	if err := c.Bind(track); err != nil {
 		return c.JSON(http.StatusBadRequest, newErrorResponse(fmt.Errorf("failed to bind track: %v", err)))
 	}
 	track.ID = id
-	updated, err := t.d.UpdateTrack(&track)
+	updated, err := t.d.UpdateTrack(track)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, newErrorResponse(fmt.Errorf("failed to update track: %v", err)))
 	}

@@ -10,14 +10,14 @@ type Dao interface {
 	Signals() ([]*Signal, error)
 	SignalByID(id int) (*Signal, error)
 	CreateSignal(s *Signal) error
-	UpdateSignal(s *Signal) (bool, error)
-	DeleteSignal(id int) (bool, error)
+	UpdateSignal(s *Signal) (bool, error) // returns true if the signal was updated
+	DeleteSignal(id int) (bool, error)    // returns true if the signal was deleted
 
 	Tracks() ([]*Track, error)
 	TrackByID(id int) (*Track, error)
 	CreateTrack(t *Track) error
-	UpdateTrack(t *Track) (bool, error)
-	DeleteTrack(id int) (bool, error)
+	UpdateTrack(t *Track) (bool, error) // returns true if the track was updated
+	DeleteTrack(id int) (bool, error)   // returns true if the track was deleted
 }
 
 type PGDao struct {
