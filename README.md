@@ -12,6 +12,8 @@ To stop
 
 # Data Model
 
+![Signalling ERD](signalling-erd.webp)
+
 # APIs
 
 ## Signals
