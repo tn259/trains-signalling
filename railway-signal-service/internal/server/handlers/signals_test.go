@@ -19,24 +19,6 @@ var signal1 = database.Signal{
 	Name: "signal1",
 }
 
-const signal1Body = `
-{
-	"id": 1,
-	"name": "signal1"
-}
-`
-
-func printRequest(req *http.Request) {
-	fmt.Printf("Request Method: %s\n", req.Method)
-	fmt.Printf("Request URL: %s\n", req.URL.String())
-	fmt.Printf("Request Headers: %v\n", req.Header)
-	if req.Body != nil {
-		bodyBytes, _ := io.ReadAll(req.Body)
-		req.Body = io.NopCloser(bytes.NewBuffer(bodyBytes)) // Reset the body after reading
-		fmt.Printf("Request Body: %s\n", string(bodyBytes))
-	}
-}
-
 func TestSignals_Get(t *testing.T) {
 	d := handlerstest.NewFakeDao()
 	s := NewSignals(d)

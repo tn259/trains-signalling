@@ -59,7 +59,7 @@ func (t *Tracks) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, newErrorResponse(fmt.Errorf("failed to parse id: %v", err)))
 	}
 	var track *database.Track
-	if err := c.Bind(track); err != nil {
+	if err := c.Bind(&track); err != nil {
 		return c.JSON(http.StatusBadRequest, newErrorResponse(fmt.Errorf("failed to bind track: %v", err)))
 	}
 	track.ID = id

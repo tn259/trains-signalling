@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// New creates a new http server with endpoints for signals and tracks
 func New(d database.Dao) {
 	r := echo.New()
 

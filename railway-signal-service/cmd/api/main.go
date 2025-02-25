@@ -15,6 +15,7 @@ func main() {
 		return
 	}
 
+	// Connect to the database
 	db, err := database.Connect(*cfg)
 	if err != nil {
 		log.Fatal("db.Connect():", err)
@@ -22,7 +23,13 @@ func main() {
 	}
 	defer db.Close()
 
-	dao := database.NewPGDao(db)
+	err = db.CreateSchema()
+	if err != nil {
+		log.Fatal("db.CreateSchema():", err)
+		return
+	}
 
+	// Start the server
+	dao := database.NewPGDao(db)
 	server.New(dao)
 }

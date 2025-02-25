@@ -33,10 +33,6 @@ func Connect(cfg config.Config) (*DB, error) {
 
 	log.Println("Connected to database successfully")
 
-	if err := createSchema(db); err != nil {
-		return nil, err
-	}
-
 	return &DB{db}, nil
 }
 
@@ -44,8 +40,8 @@ func (db *DB) Close() error {
 	return db.DB.Close()
 }
 
-// createSchema creates the database schema based on the defined models
-func createSchema(db *pg.DB) error {
+// CreateSchema creates the database schema based on the defined models
+func (db *DB) CreateSchema() error {
 	models := []interface{}{
 		(*ELR)(nil),
 		(*Signal)(nil),

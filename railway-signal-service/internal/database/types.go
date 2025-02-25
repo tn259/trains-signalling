@@ -9,7 +9,7 @@ type ELR struct {
 // Signal represents a railway signal
 type Signal struct {
 	ID   int    `pg:"id,pk"`
-	Name string `pg:"name"`
+	Name string `pg:"name"` // Allow null values
 }
 
 // Track represents a railway track section

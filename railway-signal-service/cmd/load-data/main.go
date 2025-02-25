@@ -53,6 +53,7 @@ func main() {
 	}
 	fmt.Println("JSON deserialize successful")
 
+	// Connect to the database and create the schema if necessary
 	cfg, err := config.Load()
 	if err != nil {
 		panic(err)
@@ -62,6 +63,11 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+
+	err = db.CreateSchema()
+	if err != nil {
+		panic(err)
+	}
 
 	// insert the data into the database
 	insertData(db, tracks)
@@ -112,7 +118,7 @@ func insertData(db *database.DB, t []*Track) {
 				panic(err)
 			}
 
-			// Insert TrackSignal
+			// Insert TrackSignal with FK constraints
 			_, err = tx.Exec("INSERT INTO track_signals (mileage, elr_id, signal_id, track_id) VALUES (?, ?, ?, ?)", signal.Mileage, elrID, signal.SignalID, track.TrackID)
 			if err != nil {
 				panic(err)
